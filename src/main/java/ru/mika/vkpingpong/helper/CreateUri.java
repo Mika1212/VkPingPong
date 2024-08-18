@@ -6,11 +6,14 @@ import ru.mika.vkpingpong.config.SecretConfig;
 
 import java.net.URI;
 import java.util.LinkedHashMap;
+import java.util.Random;
+
 
 public class CreateUri {
     public static URI createUri(CallbackAPIMessageDTO callbackDTO) {
         LinkedHashMap<String, Object> map = (LinkedHashMap) callbackDTO.getObject().get("message");
-        long random_id = Long.parseLong(map.get("date").toString());
+        Random rand = new Random();
+        long random_id = Long.parseLong(map.get("date").toString()) * rand.nextInt(10000);
 
         return UriComponentsBuilder.fromHttpUrl("https://api.vk.com/method/messages.send")
                 .queryParam("access_token", SecretConfig.getAccessToken())
