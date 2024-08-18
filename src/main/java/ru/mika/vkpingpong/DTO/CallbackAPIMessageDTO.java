@@ -18,35 +18,16 @@ public class CallbackAPIMessageDTO {
     public enum MessageType {
         message_new, confirmation
     }
-
     private MessageType type;
-    private HashMap<String, Object> object;
+
     @JsonProperty(value = "group_id")
     private Long groupId;
-    private String secret;
+
     @JsonProperty(value = "event_id")
     private String eventId;
-    private String v;
 
-
-    /*
+    private HashMap<String, Object> object;
     private String secret;
-    private Message object;
-
-
-    public CallbackAPIMessageDTO(String secret, Message object) {
-        this.object = object;
-        this.secret = secret;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public Message getObject() {
-        return object;
-    }
-
-     */
+    private String v;
 
 }
