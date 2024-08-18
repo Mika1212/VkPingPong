@@ -28,6 +28,6 @@ public class CallbackAPIMessageDTO {
 
     private HashMap<String, Object> object;
     private String secret;
+    private String date;
     private String v;
-
 }

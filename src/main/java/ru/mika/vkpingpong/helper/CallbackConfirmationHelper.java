@@ -5,7 +5,7 @@ import ru.mika.vkpingpong.config.SecretConfig;
 
 public class CallbackConfirmationHelper {
 
-    public static String confirmationHandler(CallbackAPIMessageDTO callbackDTO) {
+    public String confirmationHandler(CallbackAPIMessageDTO callbackDTO) {
         if (callbackDTO.getGroupId() == SecretConfig.getGroupId())
             return SecretConfig.getAcceptString();
         return null;

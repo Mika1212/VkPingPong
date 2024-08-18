@@ -14,9 +14,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/callback")
 public class CallbackAPIController {
+    private final CallbackMessageHelper callbackMessageHelper = new CallbackMessageHelper();
     @PostMapping("/message")
     public ResponseEntity<String> handleMessageCallback(@RequestBody CallbackAPIMessageDTO callbackDTO) throws IOException {
-        return new ResponseEntity<>(CallbackMessageHelper.messageHandler(callbackDTO), HttpStatus.OK);
+        return new ResponseEntity<>(callbackMessageHelper.messageHandler(callbackDTO), HttpStatus.OK);
     }
 
 }
