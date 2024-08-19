@@ -6,10 +6,13 @@ import com.squareup.okhttp.Response;
 import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 import static ru.mika.vkpingpong.helper.CreateUri.createUri;
 
+/**
+ * This class is responsible for processing messages received from the user and generating appropriate response
+ * from the bot.
+ */
 public class CallbackUserNewMessageHelper {
     public String messageHandlerUserMessage(CallbackAPIMessageDTO callbackDTO) throws IOException {
         OkHttpClient client = new OkHttpClient();

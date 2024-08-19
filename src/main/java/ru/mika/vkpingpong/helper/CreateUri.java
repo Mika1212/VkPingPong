@@ -8,7 +8,9 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Random;
 
-
+/**
+ * This class is responsible for generating the URI used by the bot to send messages.
+ */
 public class CreateUri {
     public static URI createUri(CallbackAPIMessageDTO callbackDTO) {
         LinkedHashMap<String, Object> map = (LinkedHashMap) callbackDTO.getObject().get("message");

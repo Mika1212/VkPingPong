@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.HashMap;
 
+/**
+ * This class defines a Data Transfer Object (DTO) structure for storing data received from VK. The DTO is designed
+ * to encapsulate and organize the information retrieved from VK in a standardized format.
+ */
 
 @Builder
 @Getter

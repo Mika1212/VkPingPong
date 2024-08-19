@@ -11,6 +11,10 @@ import ru.mika.vkpingpong.helper.CallbackMessageHelper;
 
 import java.io.IOException;
 
+/**
+ * This class contains a controller responsible for handling responses from VK. It processes the incoming responses,
+ * and triggers the actions necessary for further handle of the request.
+ */
 @RestController
 @RequestMapping("/callback")
 public class CallbackAPIController {

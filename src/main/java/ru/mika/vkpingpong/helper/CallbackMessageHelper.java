@@ -6,6 +6,12 @@ import ru.mika.vkpingpong.config.SecretConfig;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 
+/**
+ * This class is responsible for handling incoming requests to the controller. It processes the requests by determining
+ * the appropriate action based on the request type. If the request is for confirmation, the class will invoke the
+ * confirmation handler. Alternatively, if the request is a message from the user, it will invoke the message handler.
+ */
+
 public class CallbackMessageHelper {
     public CallbackMessageHelper() {
         callbackConfirmationHelper = new CallbackConfirmationHelper();
