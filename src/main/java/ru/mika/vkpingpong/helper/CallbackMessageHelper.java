@@ -1,5 +1,9 @@
 package ru.mika.vkpingpong.helper;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.config.SecretConfig;
 
@@ -12,10 +16,16 @@ import java.security.InvalidParameterException;
  * confirmation handler. Alternatively, if the request is a message from the user, it will invoke the message handler.
  */
 
-public class CallbackMessageHelper {
-    public CallbackMessageHelper() {
+
+@Component
+public class CallbackMessageHelper implements MessageHandlerService {
+    final
+    SecretConfig secretConfig;
+
+    public CallbackMessageHelper(@Autowired SecretConfig secretConfig) {
         callbackConfirmationHelper = new CallbackConfirmationHelper();
         callbackUserNewMessageHelper = new CallbackUserNewMessageHelper();
+        this.secretConfig = secretConfig;
     }
 
     private final CallbackUserNewMessageHelper callbackUserNewMessageHelper;
@@ -37,8 +47,8 @@ public class CallbackMessageHelper {
         }
     }
 
-    public static void secretCheck(CallbackAPIMessageDTO callbackDTO) {
-        if (!callbackDTO.getSecret().equals(SecretConfig.getSecretKey())) {
+    public void secretCheck(CallbackAPIMessageDTO callbackDTO) {
+        if (!callbackDTO.getSecret().equals(secretConfig.getSecretKey())) {
             throw new InvalidParameterException("Invalid secret key");
         }
     }

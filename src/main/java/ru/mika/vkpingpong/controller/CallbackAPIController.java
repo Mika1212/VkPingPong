@@ -1,5 +1,6 @@
 package ru.mika.vkpingpong.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.helper.CallbackMessageHelper;
+import ru.mika.vkpingpong.helper.MessageHandlerService;
 
 import java.io.IOException;
 
@@ -18,7 +20,11 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/callback")
 public class CallbackAPIController {
-    private final CallbackMessageHelper callbackMessageHelper = new CallbackMessageHelper();
+    private final MessageHandlerService callbackMessageHelper;
+    public CallbackAPIController(@Autowired MessageHandlerService callbackMessageHelper) {
+        this.callbackMessageHelper = callbackMessageHelper;
+    }
+
     @PostMapping("/message")
     public ResponseEntity<String> handleMessageCallback(@RequestBody CallbackAPIMessageDTO callbackDTO) throws IOException {
         return new ResponseEntity<>(callbackMessageHelper.messageHandler(callbackDTO), HttpStatus.OK);
