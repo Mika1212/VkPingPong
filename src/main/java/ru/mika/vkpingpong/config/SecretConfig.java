@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties("vk")
 public class SecretConfig {
-    private static final String acceptString = "";
+    private String acceptString;
 
     private String secretKey;
-    private static final int groupId = ;
-    private static final String accessToken = ;
-    public static String getAcceptString() {
+    private int groupId;
+    private String accessToken;
+    public String getAcceptString() {
         return acceptString;
     }
 
@@ -23,11 +23,11 @@ public class SecretConfig {
         return secretKey;
     }
 
-    public static int getGroupId() {
+    public int getGroupId() {
         return groupId;
     }
 
-    public static String getAccessToken() {return accessToken;}
+    public String getAccessToken() {return accessToken;}
 
     public void setSecretKey(String secretKeyNew) {
         secretKey = secretKeyNew;
