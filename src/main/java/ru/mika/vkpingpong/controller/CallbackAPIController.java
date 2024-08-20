@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
-import ru.mika.vkpingpong.helper.CallbackMessageHelper;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.helper.MessageHandlerService;
 
 import java.io.IOException;

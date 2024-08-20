@@ -2,30 +2,31 @@ package ru.mika.vkpingpong;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.config.SecretConfig;
 import ru.mika.vkpingpong.controller.CallbackAPIController;
-import ru.mika.vkpingpong.helper.CallbackMessageHelper;
+import ru.mika.vkpingpong.dto.request.SendMessageRequest;
+import ru.mika.vkpingpong.dto.response.SendMessageResponse;
 import ru.mika.vkpingpong.helper.MessageHandlerService;
+import ru.mika.vkpingpong.helper.VkRepository;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,11 +51,17 @@ class VkPingPongApplicationTests {
 
 	@MockBean
 	private MessageHandlerService service;
+	@Captor
+	private ArgumentCaptor<SendMessageRequest> captor;
 
+	@MockBean
+	private VkRepository vkRepository;
 
 	@BeforeEach
 	public void setup() {
 		Mockito.when(secretConfig.getSecretKey()).thenReturn("000000");
+		SendMessageResponse response = new SendMessageResponse();
+		Mockito.when(vkRepository.send(any())).thenReturn(response);
 	}
 
 	@Test
@@ -73,7 +80,7 @@ class VkPingPongApplicationTests {
 		CallbackAPIMessageDTO messageDTO = CallbackAPIMessageDTO.builder()
 				.secret("000000")
 				.type(CallbackAPIMessageDTO.MessageType.message_new)
-				.object(object)
+		//		.object(object)
 				.build();
 
 		String requestBody = new ObjectMapper().valueToTree(messageDTO).toString();
@@ -83,7 +90,7 @@ class VkPingPongApplicationTests {
 		service.messageHandler(messageDTO);
 		verify(service, times(1)).messageHandler(messageDTO);
 		verify(service, times(1)).messageHandler(messageDTO);
-
+		//verify(captor.capture().getAccessToken());
 
 
 		mockMvc.perform(MockMvcRequestBuilders

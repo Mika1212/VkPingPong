@@ -1,7 +1,7 @@
 package ru.mika.vkpingpong.helper;
 
 import org.springframework.stereotype.Service;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 
 import java.io.IOException;
 

@@ -1,5 +1,6 @@
 package ru.mika.vkpingpong.config;
 
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
  * This class stores sensitive data crucial for the bot's operation. This data includes information such as API keys,
  * access tokens, and secret keys, which are essential for the bot to function correctly.
  */
+@Setter
 @Configuration
 @ConfigurationProperties("vk")
 public class SecretConfig {
     private String acceptString;
-
     private String secretKey;
     private int groupId;
     private String accessToken;

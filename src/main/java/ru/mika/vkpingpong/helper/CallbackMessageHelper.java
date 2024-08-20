@@ -1,10 +1,8 @@
 package ru.mika.vkpingpong.helper;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.config.SecretConfig;
 
 import java.io.IOException;
@@ -19,17 +17,20 @@ import java.security.InvalidParameterException;
 
 @Component
 public class CallbackMessageHelper implements MessageHandlerService {
-    final
-    SecretConfig secretConfig;
-
-    public CallbackMessageHelper(@Autowired SecretConfig secretConfig) {
-        callbackConfirmationHelper = new CallbackConfirmationHelper();
-        callbackUserNewMessageHelper = new CallbackUserNewMessageHelper();
-        this.secretConfig = secretConfig;
-    }
-
+    private final SecretConfig secretConfig;
     private final CallbackUserNewMessageHelper callbackUserNewMessageHelper;
     private final CallbackConfirmationHelper callbackConfirmationHelper;
+
+    public CallbackMessageHelper(
+            @Autowired SecretConfig secretConfig,
+            @Autowired CallbackUserNewMessageHelper callbackUserNewMessageHelper,
+            @Autowired CallbackConfirmationHelper callbackConfirmationHelper
+    )
+    {
+        this.callbackConfirmationHelper = callbackConfirmationHelper;
+        this.callbackUserNewMessageHelper = callbackUserNewMessageHelper;
+        this.secretConfig = secretConfig;
+    }
 
     public String messageHandler(CallbackAPIMessageDTO callbackDTO) throws IOException {
         secretCheck(callbackDTO);

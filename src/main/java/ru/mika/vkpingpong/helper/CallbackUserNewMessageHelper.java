@@ -1,11 +1,8 @@
 package ru.mika.vkpingpong.helper;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 
 import java.io.IOException;
 
@@ -15,14 +12,14 @@ import java.io.IOException;
  */
 @Component
 public class CallbackUserNewMessageHelper {
-    @Autowired
-    CreateUri createUri;
+    private final VkClient client;
+
+    public CallbackUserNewMessageHelper(@Autowired VkClient client) {
+        this.client = client;
+    }
 
     public String messageHandlerUserMessage(CallbackAPIMessageDTO callbackDTO) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(createUri.createUri(callbackDTO).toURL()).build();
-        Response response = client.newCall(request).execute();
-        return response.message();
+        return client.createUri(callbackDTO);
     }
 
 }

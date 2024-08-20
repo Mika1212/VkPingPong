@@ -1,13 +1,15 @@
 package ru.mika.vkpingpong;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import retrofit2.http.*;
+import ru.mika.vkpingpong.dto.response.SendMessageResponse;
+
+import java.util.Map;
 
 public interface VkApi {
 
-    @POST("callback/message")
+    @POST("method/messages.send")
+    @FormUrlEncoded
+    Call<SendMessageResponse> sendMessage(@FieldMap Map<String, Object> paramsMap);
 
-    Call<CallbackAPIMessageDTO> createUser(@Body CallbackAPIMessageDTO messageDTO);
 }

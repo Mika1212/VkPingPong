@@ -1,12 +1,8 @@
-package ru.mika.vkpingpong.DTO;
+package ru.mika.vkpingpong.dto.callback;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import java.util.HashMap;
+import lombok.*;
 
 /**
  * This class defines a Data Transfer Object (DTO) structure for storing data received from VK. The DTO is designed
@@ -30,7 +26,25 @@ public class CallbackAPIMessageDTO {
     @JsonProperty(value = "event_id")
     private String eventId;
 
-    private HashMap<String, Object> object;
+    private CallbackObjectDTO object;
+
     private String secret;
     private String v;
+
+
+    @Data
+    public static class CallbackObjectDTO {
+
+        CallbackMessageDTO message;
+
+    }
+    @Data
+    public static class CallbackMessageDTO {
+
+        @JsonProperty(value = "from_id")
+        Long fromId;
+        String text;
+        String date;
+    }
+
 }

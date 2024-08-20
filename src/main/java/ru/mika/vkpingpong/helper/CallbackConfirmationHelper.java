@@ -2,7 +2,7 @@ package ru.mika.vkpingpong.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.mika.vkpingpong.DTO.CallbackAPIMessageDTO;
+import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.config.SecretConfig;
 
 /**
@@ -11,8 +11,11 @@ import ru.mika.vkpingpong.config.SecretConfig;
  */
 @Component
 public class CallbackConfirmationHelper {
-    @Autowired
-    SecretConfig secretConfig;
+    private final SecretConfig secretConfig;
+
+    public CallbackConfirmationHelper(@Autowired SecretConfig secretConfig) {
+        this.secretConfig = secretConfig;
+    }
 
     public String confirmationHandler(CallbackAPIMessageDTO callbackDTO) {
         if (callbackDTO.getGroupId() == secretConfig.getGroupId())
