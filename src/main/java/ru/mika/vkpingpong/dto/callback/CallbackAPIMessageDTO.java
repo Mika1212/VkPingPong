@@ -16,22 +16,14 @@ import lombok.*;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CallbackAPIMessageDTO {
-    public enum MessageType {
-        message_new, confirmation
-    }
     private MessageType type;
-
     @JsonProperty(value = "group_id")
     private Long groupId;
-
     @JsonProperty(value = "event_id")
     private String eventId;
-
     private CallbackObjectDTO object;
-
     private String secret;
     private String v;
-
 
     @Data
     public static class CallbackObjectDTO {
@@ -47,5 +39,7 @@ public class CallbackAPIMessageDTO {
         String text;
         String date;
     }
-
+    public enum MessageType {
+        message_new, confirmation
+    }
 }
