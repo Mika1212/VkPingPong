@@ -1,0 +1,8 @@
+services:
+  vk-ping-pong:
+    image: vk-ping-pong:latest
+    build:
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"

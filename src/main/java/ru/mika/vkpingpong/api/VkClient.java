@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.mika.vkpingpong.config.SecretConfig;
 import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.dto.request.SendMessageRequest;
+import ru.mika.vkpingpong.dto.response.SendMessageResponse;
 
 import java.util.Random;
 
@@ -22,18 +23,19 @@ public class VkClient {
     }
 
     public String processRequest(CallbackAPIMessageDTO callbackDTO) {
-        Random rand = new Random();
         var message = callbackDTO.getObject().getMessage();
-        long randomId = Long.parseLong(message.getDate()) * rand.nextInt(10000);
         var sendMessageRequest = SendMessageRequest.builder()
                 .secret(secretConfig.getSecretKey())
                 .userId(message.getFromId())
-                .randomId(randomId)
+                .randomId(message.getId())
                 .message("Вы сказали: " + message.getText())
                 .accessToken(secretConfig.getAccessToken())
                 .v(callbackDTO.getV())
                 .build();
 
-        return vkRepository.send(sendMessageRequest).getResponse();
+        SendMessageResponse sendMessageResponse = vkRepository.send(sendMessageRequest);
+        if (sendMessageResponse != null) return sendMessageResponse.getResponse();
+        else return null;
+
     }
 }

@@ -48,7 +48,7 @@ class VkClientTest {
         verify(vkRepository).send(captor.capture());
         assertEquals("V1", captor.getValue().getV());
         assertEquals("Вы сказали: test", captor.getValue().getMessage());
-        assertEquals(0L, captor.getValue().getRandomId());
+        assertEquals(1L, captor.getValue().getRandomId());
         assertEquals(config.getAccessToken(), captor.getValue().getAccessToken());
         assertEquals(1L, captor.getValue().getUserId());
         assertEquals(config.getSecretKey(), captor.getValue().getSecret());
@@ -66,6 +66,7 @@ class VkClientTest {
         messageDTO.setDate("000");
         messageDTO.setText("test");
         messageDTO.setFromId(1L);
+        messageDTO.setId(1L);
         objectDTO.setMessage(messageDTO);
         mockDTO.setObject(objectDTO);
         mockDTO.setV("V1");

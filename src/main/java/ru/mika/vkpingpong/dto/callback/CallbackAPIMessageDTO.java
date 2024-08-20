@@ -38,6 +38,7 @@ public class CallbackAPIMessageDTO {
         Long fromId;
         String text;
         String date;
+        Long id;
     }
     public enum MessageType {
         message_new, confirmation
