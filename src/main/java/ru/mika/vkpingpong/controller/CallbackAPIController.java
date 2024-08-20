@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
-import ru.mika.vkpingpong.helper.MessageHandlerService;
-
-import java.io.IOException;
+import ru.mika.vkpingpong.service.MessageHandlerService;
 
 /**
  * This class contains a controller responsible for handling responses from VK. It processes the incoming responses,
@@ -19,14 +17,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/callback")
 public class CallbackAPIController {
-    private final MessageHandlerService callbackMessageHelper;
-    public CallbackAPIController(@Autowired MessageHandlerService callbackMessageHelper) {
-        this.callbackMessageHelper = callbackMessageHelper;
+    private final MessageHandlerService service;
+    public CallbackAPIController(@Autowired MessageHandlerService service) {
+        this.service = service;
     }
 
     @PostMapping("/message")
-    public ResponseEntity<String> handleMessageCallback(@RequestBody CallbackAPIMessageDTO callbackDTO) throws IOException {
-        return new ResponseEntity<>(callbackMessageHelper.messageHandler(callbackDTO), HttpStatus.OK);
+    public ResponseEntity<String> handleMessageCallback(@RequestBody CallbackAPIMessageDTO callbackDTO) {
+        return new ResponseEntity<>(service.handle(callbackDTO), HttpStatus.OK);
     }
 
 }

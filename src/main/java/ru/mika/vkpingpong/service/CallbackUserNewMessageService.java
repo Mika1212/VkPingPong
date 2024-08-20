@@ -1,25 +1,24 @@
-package ru.mika.vkpingpong.helper;
+package ru.mika.vkpingpong.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
-
-import java.io.IOException;
+import ru.mika.vkpingpong.api.VkClient;
 
 /**
  * This class is responsible for processing messages received from the user and generating appropriate response
  * from the bot.
  */
 @Component
-public class CallbackUserNewMessageHelper {
+public class CallbackUserNewMessageService implements MessageExecutorService{
     private final VkClient client;
 
-    public CallbackUserNewMessageHelper(@Autowired VkClient client) {
+    public CallbackUserNewMessageService(@Autowired VkClient client) {
         this.client = client;
     }
 
-    public String messageHandlerUserMessage(CallbackAPIMessageDTO callbackDTO) throws IOException {
-        return client.createUri(callbackDTO);
+    @Override
+    public String execute(CallbackAPIMessageDTO callbackDTO){
+        return client.processRequest(callbackDTO);
     }
-
 }

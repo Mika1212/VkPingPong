@@ -1,4 +1,4 @@
-package ru.mika.vkpingpong.helper;
+package ru.mika.vkpingpong.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,14 +10,15 @@ import ru.mika.vkpingpong.config.SecretConfig;
  * configured in the VK settings.
  */
 @Component
-public class CallbackConfirmationHelper {
+public class CallbackConfirmationService implements MessageExecutorService {
     private final SecretConfig secretConfig;
 
-    public CallbackConfirmationHelper(@Autowired SecretConfig secretConfig) {
+    public CallbackConfirmationService(@Autowired SecretConfig secretConfig) {
         this.secretConfig = secretConfig;
     }
 
-    public String confirmationHandler(CallbackAPIMessageDTO callbackDTO) {
+    @Override
+    public String execute(CallbackAPIMessageDTO callbackDTO) {
         if (callbackDTO.getGroupId() == secretConfig.getGroupId())
             return secretConfig.getAcceptString();
         return null;

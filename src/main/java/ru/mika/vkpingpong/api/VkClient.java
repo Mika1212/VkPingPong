@@ -1,4 +1,4 @@
-package ru.mika.vkpingpong.helper;
+package ru.mika.vkpingpong.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,11 +21,11 @@ public class VkClient {
         this.vkRepository = vkRepository;
     }
 
-    public String createUri(CallbackAPIMessageDTO callbackDTO) {
+    public String processRequest(CallbackAPIMessageDTO callbackDTO) {
         Random rand = new Random();
         var message = callbackDTO.getObject().getMessage();
         long randomId = Long.parseLong(message.getDate()) * rand.nextInt(10000);
-        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+        var sendMessageRequest = SendMessageRequest.builder()
                 .secret(secretConfig.getSecretKey())
                 .userId(message.getFromId())
                 .randomId(randomId)

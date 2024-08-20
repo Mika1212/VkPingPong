@@ -1,11 +1,10 @@
-package ru.mika.vkpingpong.helper;
+package ru.mika.vkpingpong.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mika.vkpingpong.dto.callback.CallbackAPIMessageDTO;
 import ru.mika.vkpingpong.config.SecretConfig;
 
-import java.io.IOException;
 import java.security.InvalidParameterException;
 
 /**
@@ -13,42 +12,39 @@ import java.security.InvalidParameterException;
  * the appropriate action based on the request type. If the request is for confirmation, the class will invoke the
  * confirmation handler. Alternatively, if the request is a message from the user, it will invoke the message handler.
  */
-
-
 @Component
-public class CallbackMessageHelper implements MessageHandlerService {
+public class CallbackMessageServiceFacade implements MessageHandlerService {
     private final SecretConfig secretConfig;
-    private final CallbackUserNewMessageHelper callbackUserNewMessageHelper;
-    private final CallbackConfirmationHelper callbackConfirmationHelper;
+    private final CallbackUserNewMessageService callbackUserNewMessageService;
+    private final CallbackConfirmationService callbackConfirmationService;
 
-    public CallbackMessageHelper(
+    public CallbackMessageServiceFacade(
             @Autowired SecretConfig secretConfig,
-            @Autowired CallbackUserNewMessageHelper callbackUserNewMessageHelper,
-            @Autowired CallbackConfirmationHelper callbackConfirmationHelper
+            @Autowired CallbackUserNewMessageService callbackUserNewMessageService,
+            @Autowired CallbackConfirmationService callbackConfirmationService
     )
     {
-        this.callbackConfirmationHelper = callbackConfirmationHelper;
-        this.callbackUserNewMessageHelper = callbackUserNewMessageHelper;
+        this.callbackConfirmationService = callbackConfirmationService;
+        this.callbackUserNewMessageService = callbackUserNewMessageService;
         this.secretConfig = secretConfig;
     }
 
-    public String messageHandler(CallbackAPIMessageDTO callbackDTO) throws IOException {
+    @Override
+    public String handle(CallbackAPIMessageDTO callbackDTO) {
         secretCheck(callbackDTO);
         switch (callbackDTO.getType()) {
             case message_new -> {
-                return callbackUserNewMessageHelper.messageHandlerUserMessage(callbackDTO);
+                return callbackUserNewMessageService.execute(callbackDTO);
             }
             case confirmation -> {
-                return callbackConfirmationHelper.confirmationHandler(callbackDTO);
+                return callbackConfirmationService.execute(callbackDTO);
             }
 
-            default -> {
-                throw new InvalidParameterException("Invalid message type");
-            }
+            default -> throw new InvalidParameterException("Invalid message type");
         }
     }
 
-    public void secretCheck(CallbackAPIMessageDTO callbackDTO) {
+    private void secretCheck(CallbackAPIMessageDTO callbackDTO) {
         if (!callbackDTO.getSecret().equals(secretConfig.getSecretKey())) {
             throw new InvalidParameterException("Invalid secret key");
         }

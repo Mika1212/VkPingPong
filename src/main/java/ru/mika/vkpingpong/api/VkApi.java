@@ -1,4 +1,4 @@
-package ru.mika.vkpingpong;
+package ru.mika.vkpingpong.api;
 
 import retrofit2.Call;
 import retrofit2.http.*;
